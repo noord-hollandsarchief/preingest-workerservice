@@ -868,6 +868,54 @@
         }
       }
     },
+    "/api/Preingest/pronom/{guid}": {
+      "post": {
+        "tags": [
+          "Preingest"
+        ],
+        "operationId": "Update metadata (bestand) files with PRONOM values",
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Preingest/binaries/{guid}": {
+      "post": {
+        "tags": [
+          "Preingest"
+        ],
+        "operationId": "Validate non-metadata files looking for ZBF and mismatch (PRONOM)",
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Service/startplan/{guid}": {
       "post": {
         "tags": [
@@ -1591,7 +1639,9 @@
           "ToPX2MDTOHandler",
           "PronomPropsHandler",
           "RelationshipHandler",
-          "FixityPropsHandler"
+          "FixityPropsHandler",
+          "BinaryFileObjectValidationHandler",
+          "BinaryFileMetadataMutationHandler"
         ],
         "type": "string"
       }

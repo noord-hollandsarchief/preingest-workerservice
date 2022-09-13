@@ -3,7 +3,7 @@
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
-      "url": "D:\\preingest\\preingest\\Noord.Hollands.Archief.Preingest.WorkerService\\swagger.json",
+      "url": "D:\\preingest-workerservice\\Noord.Hollands.Archief.Preingest.WorkerService\\swagger.json",
       "output": "OpenAPI.nswag.json",
       "newLineBehavior": "Auto"
     }

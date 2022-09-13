@@ -8,7 +8,7 @@
     "ServiceName": "OpenAPIService",
     "AcceptAllUntrustedCertificates": false,
     "GeneratedFileName": "OpenAPI",
-    "Endpoint": "D:\\preingest\\preingest\\Noord.Hollands.Archief.Preingest.WorkerService\\swagger.json",
+    "Endpoint": "D:\\preingest-workerservice\\Noord.Hollands.Archief.Preingest.WorkerService\\swagger.json",
     "GeneratedFileNamePrefix": null,
     "GenerateCSharpClient": true,
     "GenerateTypeScriptClient": false,

@@ -34,7 +34,9 @@ namespace Noord.Hollands.Archief.Preingest.WorkerService.Entities.CommandKey
         ToPX2MDTOHandler,
         PronomPropsHandler,
         RelationshipHandler,
-        FixityPropsHandler
+        FixityPropsHandler,
+        BinaryFileObjectValidationHandler,
+        BinaryFileMetadataMutationHandler
     }
     public interface IKey : IEquatable<IKey>
     {
