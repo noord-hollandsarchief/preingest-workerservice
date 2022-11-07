@@ -32,7 +32,7 @@
       "clientClassAccessModifier": "public",
       "typeAccessModifier": "public",
       "generateContractsOutput": false,
-      "contractsNamespace": "",
+      "contractsNamespace": null,
       "contractsOutputFilePath": null,
       "parameterDateTimeFormat": "s",
       "parameterDateFormat": "yyyy-MM-dd",

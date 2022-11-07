@@ -36,7 +36,8 @@ namespace Noord.Hollands.Archief.Preingest.WorkerService.Entities.CommandKey
         RelationshipHandler,
         FixityPropsHandler,
         BinaryFileObjectValidationHandler,
-        BinaryFileMetadataMutationHandler
+        BinaryFileMetadataMutationHandler,
+        BuildNonMetadataOpexHandler
     }
     public interface IKey : IEquatable<IKey>
     {

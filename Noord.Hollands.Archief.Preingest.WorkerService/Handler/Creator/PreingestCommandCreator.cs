@@ -64,6 +64,8 @@ namespace Noord.Hollands.Archief.Preingest.WorkerService.Handler.Creator
             //new: fiets+
             _executionCommand.Add(new DefaultKey(ValidationActionType.BinaryFileMetadataMutationHandler), new BinariesPronomMutationCommand(logger, webapiUrl));
             _executionCommand.Add(new DefaultKey(ValidationActionType.BinaryFileObjectValidationHandler), new BinariesValidationCommand(logger, webapiUrl));
+            //new: motor
+            _executionCommand.Add(new DefaultKey(ValidationActionType.BuildNonMetadataOpexHandler), new BuildNonMetadataOpexCommand(logger, webapiUrl));
         }
 
         /// <summary>

@@ -1,12 +1,12 @@
 ﻿{
   "ProviderId": "Unchase.OpenAPI.ConnectedService",
-  "Version": "1.6.8.0",
+  "Version": "1.7.0.0",
   "GettingStartedDocument": {
     "Uri": "https://github.com/unchase/Unchase.OpenAPI.Connectedservice/"
   },
   "ExtendedData": {
     "ServiceName": "OpenAPIService",
-    "AcceptAllUntrustedCertificates": false,
+    "AcceptAllUntrustedCertificates": true,
     "GeneratedFileName": "OpenAPI",
     "Endpoint": "D:\\preingest-workerservice\\Noord.Hollands.Archief.Preingest.WorkerService\\swagger.json",
     "GeneratedFileNamePrefix": null,
@@ -36,7 +36,7 @@
       "ClientClassAccessModifier": "public",
       "TypeAccessModifier": "public",
       "GenerateContractsOutput": false,
-      "ContractsNamespace": "",
+      "ContractsNamespace": null,
       "ContractsOutputFilePath": null,
       "ParameterDateTimeFormat": "s",
       "ParameterDateFormat": "yyyy-MM-dd",
@@ -104,9 +104,9 @@
     "OpenApiToTypeScriptClientCommand": null,
     "OpenApiToCSharpControllerCommand": null,
     "Variables": null,
-    "Runtime": 7,
+    "Runtime": 0,
     "CopySpecification": false,
-    "OpenGeneratedFilesOnComplete": true,
+    "OpenGeneratedFilesOnComplete": false,
     "UseRelativePath": false,
     "ConvertFromOdata": false,
     "OpenApiConvertSettings": {
