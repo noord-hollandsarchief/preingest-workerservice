@@ -10,7 +10,7 @@
         "tags": [
           "Opex"
         ],
-        "operationId": "Build Opex for ingest.",
+        "operationId": "BuildOpexForIngest",
         "parameters": [
           {
             "name": "guid",
@@ -53,7 +53,7 @@
         "tags": [
           "Opex"
         ],
-        "operationId": "Show the list of the bucket content.",
+        "operationId": "ShowBucketContent",
         "parameters": [
           {
             "name": "guid",
@@ -77,7 +77,7 @@
         "tags": [
           "Opex"
         ],
-        "operationId": "Clear the bucket.",
+        "operationId": "ClearBucket",
         "parameters": [
           {
             "name": "guid",
@@ -101,7 +101,7 @@
         "tags": [
           "Opex"
         ],
-        "operationId": "Upload an Opex collection to the bucket",
+        "operationId": "Upload2Bucket",
         "parameters": [
           {
             "name": "guid",
@@ -125,7 +125,7 @@
         "tags": [
           "Opex"
         ],
-        "operationId": "Run checksum on all files.",
+        "operationId": "RunChecksumWithEveryFiles",
         "parameters": [
           {
             "name": "guid",
@@ -168,7 +168,7 @@
         "tags": [
           "Opex"
         ],
-        "operationId": "Polish Opex files by using XSLT transformation.",
+        "operationId": "PolishOpexFiles",
         "parameters": [
           {
             "name": "guid",
@@ -192,7 +192,31 @@
         "tags": [
           "Opex"
         ],
-        "operationId": "Build Opex (non metadata) for ingest.",
+        "operationId": "BuildOpexNonMetadata",
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Opex/revert/{guid}": {
+      "put": {
+        "tags": [
+          "Opex"
+        ],
+        "operationId": "RevertCollection",
         "parameters": [
           {
             "name": "guid",
@@ -216,7 +240,7 @@
         "tags": [
           "Output"
         ],
-        "operationId": "Get collections of tar/tar.gz files.",
+        "operationId": "GetListCollections",
         "responses": {
           "200": {
             "description": "Success"
@@ -229,7 +253,7 @@
         "tags": [
           "Output"
         ],
-        "operationId": "Get specific collection of tar/tar.gz file.",
+        "operationId": "GetSingleCollection",
         "parameters": [
           {
             "name": "guid",
@@ -253,7 +277,7 @@
         "tags": [
           "Output"
         ],
-        "operationId": "Get json results from a session.",
+        "operationId": "GetJsonResults",
         "parameters": [
           {
             "name": "guid",
@@ -285,7 +309,7 @@
         "tags": [
           "Output"
         ],
-        "operationId": "Get a report as a file from a session.",
+        "operationId": "GetReportByFilename",
         "parameters": [
           {
             "name": "guid",
@@ -317,7 +341,7 @@
         "tags": [
           "Output"
         ],
-        "operationId": "Get a list of files from prewash folder.",
+        "operationId": "GetListOfFilesFromPrewash",
         "responses": {
           "200": {
             "description": "Success"
@@ -330,7 +354,7 @@
         "tags": [
           "Output"
         ],
-        "operationId": "Get a list of schemas.",
+        "operationId": "GetListOfSchemas",
         "responses": {
           "200": {
             "description": "Success"
@@ -343,7 +367,7 @@
         "tags": [
           "Output"
         ],
-        "operationId": "Get collection structure of a session ID.",
+        "operationId": "GetCollectionStructure",
         "parameters": [
           {
             "name": "guid",
@@ -367,7 +391,7 @@
         "tags": [
           "Output"
         ],
-        "operationId": "Get collection item of a session ID.",
+        "operationId": "GetCollectionItemContent",
         "parameters": [
           {
             "name": "base64EncodedValue",
@@ -390,7 +414,7 @@
         "tags": [
           "Output"
         ],
-        "operationId": "Get sidecar structure from a session.",
+        "operationId": "GetSidecarItemProperties",
         "parameters": [
           {
             "name": "base64EncodedValue",
@@ -413,7 +437,7 @@
         "tags": [
           "Preingest"
         ],
-        "operationId": "API service check",
+        "operationId": "ServiceHealthCheck",
         "responses": {
           "200": {
             "description": "Success"
@@ -426,7 +450,7 @@
         "tags": [
           "Preingest"
         ],
-        "operationId": "Collection checksum calculation. Options : MD5, SHA1, SHA224, SHA256, SHA384, SHA512",
+        "operationId": "CalculateCollectionChecksum",
         "parameters": [
           {
             "name": "guid",
@@ -469,7 +493,7 @@
         "tags": [
           "Preingest"
         ],
-        "operationId": "Unpack tar collection",
+        "operationId": "ExpandCollectionArchive",
         "parameters": [
           {
             "name": "guid",
@@ -493,7 +517,7 @@
         "tags": [
           "Preingest"
         ],
-        "operationId": "Virusscan check",
+        "operationId": "RunVirusMalwareScan",
         "parameters": [
           {
             "name": "guid",
@@ -517,7 +541,7 @@
         "tags": [
           "Preingest"
         ],
-        "operationId": "Naming check",
+        "operationId": "NamingConventionValidation",
         "parameters": [
           {
             "name": "guid",
@@ -541,7 +565,7 @@
         "tags": [
           "Preingest"
         ],
-        "operationId": "Sidecar check",
+        "operationId": "SidecarValidation",
         "parameters": [
           {
             "name": "guid",
@@ -565,7 +589,7 @@
         "tags": [
           "Preingest"
         ],
-        "operationId": "Droid create profile",
+        "operationId": "CreateDroidProfile",
         "parameters": [
           {
             "name": "guid",
@@ -589,7 +613,7 @@
         "tags": [
           "Preingest"
         ],
-        "operationId": "Droid exporting result (CSV)",
+        "operationId": "ExportingDroidResultCSV",
         "parameters": [
           {
             "name": "guid",
@@ -613,7 +637,7 @@
         "tags": [
           "Preingest"
         ],
-        "operationId": "Droid reporting PDF/Droid (XML)/Planets (XML)",
+        "operationId": "DroidReportingPDFDroidXMLPlanetsXML",
         "parameters": [
           {
             "name": "guid",
@@ -645,7 +669,7 @@
         "tags": [
           "Preingest"
         ],
-        "operationId": "Droid signature update",
+        "operationId": "DroidSignatureUpdate",
         "responses": {
           "200": {
             "description": "Success"
@@ -658,7 +682,7 @@
         "tags": [
           "Preingest"
         ],
-        "operationId": "Greenlist check",
+        "operationId": "PreferenceGreenListComparisonCheck",
         "parameters": [
           {
             "name": "guid",
@@ -682,7 +706,7 @@
         "tags": [
           "Preingest"
         ],
-        "operationId": "Encoding check .metadata files",
+        "operationId": "EncodingMetadataFilesCheck",
         "parameters": [
           {
             "name": "guid",
@@ -706,7 +730,7 @@
         "tags": [
           "Preingest"
         ],
-        "operationId": "Validate .metadata files",
+        "operationId": "ValidateMetadataContent",
         "parameters": [
           {
             "name": "guid",
@@ -730,7 +754,7 @@
         "tags": [
           "Preingest"
         ],
-        "operationId": "Generate Excel report",
+        "operationId": "GenerateExcelReport",
         "parameters": [
           {
             "name": "guid",
@@ -754,7 +778,7 @@
         "tags": [
           "Preingest"
         ],
-        "operationId": "Save preingest extra setting(s)",
+        "operationId": "SavePreingestSettings",
         "parameters": [
           {
             "name": "guid",
@@ -797,7 +821,7 @@
         "tags": [
           "Preingest"
         ],
-        "operationId": "Prewash .metadata files.",
+        "operationId": "PrewashMetadataFiles",
         "parameters": [
           {
             "name": "guid",
@@ -821,7 +845,7 @@
         "tags": [
           "Preingest"
         ],
-        "operationId": "Index metadata files and save the result in an Excel report",
+        "operationId": "IndexMetadataFilesToExcel",
         "parameters": [
           {
             "name": "guid",
@@ -873,7 +897,7 @@
         "tags": [
           "Preingest"
         ],
-        "operationId": "Detect files with password protection",
+        "operationId": "DetectFilesWithPasswordProtection",
         "parameters": [
           {
             "name": "guid",
@@ -897,7 +921,7 @@
         "tags": [
           "Preingest"
         ],
-        "operationId": "Update metadata (bestand) files with PRONOM values",
+        "operationId": "UpdateMetadataFilesWithPRONOM",
         "parameters": [
           {
             "name": "guid",
@@ -921,7 +945,7 @@
         "tags": [
           "Preingest"
         ],
-        "operationId": "Validate non-metadata files looking for ZBF and mismatch (PRONOM)",
+        "operationId": "LookingForZBFPlusPRONOMMismatch",
         "parameters": [
           {
             "name": "guid",
@@ -945,7 +969,7 @@
         "tags": [
           "Service"
         ],
-        "operationId": "Auto run preingest by worker service",
+        "operationId": "StartPreingestPlan",
         "parameters": [
           {
             "name": "guid",
@@ -988,7 +1012,7 @@
         "tags": [
           "Service"
         ],
-        "operationId": "Delete an autorun preingest in worker service by GUID",
+        "operationId": "CancelPreingestPlan",
         "parameters": [
           {
             "name": "guid",
@@ -1012,7 +1036,7 @@
         "tags": [
           "Status"
         ],
-        "operationId": "Retrieve an action from a preingest session",
+        "operationId": "RetrieveActionRecordByGuid",
         "parameters": [
           {
             "name": "actionGuid",
@@ -1036,7 +1060,7 @@
         "tags": [
           "Status"
         ],
-        "operationId": "Retrieve all actions from a preingest session",
+        "operationId": "RetrieveAllActionsFromCollection",
         "parameters": [
           {
             "name": "folderSessionGuid",
@@ -1060,7 +1084,7 @@
         "tags": [
           "Status"
         ],
-        "operationId": "Add an action",
+        "operationId": "AddActionForCollection",
         "parameters": [
           {
             "name": "folderSessionGuid",
@@ -1103,7 +1127,7 @@
         "tags": [
           "Status"
         ],
-        "operationId": "Update an action status and summary",
+        "operationId": "UpdateActionByGuid",
         "parameters": [
           {
             "name": "actionGuid",
@@ -1146,7 +1170,7 @@
         "tags": [
           "Status"
         ],
-        "operationId": "Add a start status",
+        "operationId": "AddStartStatusByGuid",
         "parameters": [
           {
             "name": "actionGuid",
@@ -1170,7 +1194,7 @@
         "tags": [
           "Status"
         ],
-        "operationId": "Add a completed status",
+        "operationId": "AddCompletedStatusByGuid",
         "parameters": [
           {
             "name": "actionGuid",
@@ -1194,7 +1218,7 @@
         "tags": [
           "Status"
         ],
-        "operationId": "Add a failed status",
+        "operationId": "AddFailedStatusByGuid",
         "parameters": [
           {
             "name": "actionGuid",
@@ -1237,7 +1261,7 @@
         "tags": [
           "Status"
         ],
-        "operationId": "Clear data for a session folder",
+        "operationId": "ClearHistoryDataCollection",
         "parameters": [
           {
             "name": "folderSessionGuid",
@@ -1261,7 +1285,7 @@
         "tags": [
           "Status"
         ],
-        "operationId": "Remove session folder and clear the data for session folder",
+        "operationId": "RemoveHistoryDataForCollection",
         "parameters": [
           {
             "name": "folderSessionGuid",
@@ -1285,7 +1309,7 @@
         "tags": [
           "Status"
         ],
-        "operationId": "Notify the client about an event",
+        "operationId": "NotifyClientOfAnEvent",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1317,7 +1341,7 @@
         "tags": [
           "ToPX2MDTO"
         ],
-        "operationId": "Converting ToPX to MDTO",
+        "operationId": "StartConvertingToPX2MDTO",
         "parameters": [
           {
             "name": "guid",
@@ -1341,7 +1365,7 @@
         "tags": [
           "ToPX2MDTO"
         ],
-        "operationId": "Update file format with PRONOM properties in MDTO (bestandType)",
+        "operationId": "UpdateFileFormatUsingPRONOMForMDTO",
         "parameters": [
           {
             "name": "guid",
@@ -1365,7 +1389,7 @@
         "tags": [
           "ToPX2MDTO"
         ],
-        "operationId": "Update file fixity in MDTO (bestandType)",
+        "operationId": "UpdateFileFixityForMDTO",
         "parameters": [
           {
             "name": "guid",
@@ -1389,7 +1413,7 @@
         "tags": [
           "ToPX2MDTO"
         ],
-        "operationId": "Update relationship references in MDTO (informatieobjectType and bestandType)",
+        "operationId": "UpdateRelationshipReferencesForMDTO",
         "parameters": [
           {
             "name": "guid",
@@ -1665,7 +1689,8 @@
           "RelationshipHandler",
           "FixityPropsHandler",
           "BinaryFileObjectValidationHandler",
-          "BinaryFileMetadataMutationHandler"
+          "BinaryFileMetadataMutationHandler",
+          "BuildNonMetadataOpexHandler"
         ],
         "type": "string"
       }

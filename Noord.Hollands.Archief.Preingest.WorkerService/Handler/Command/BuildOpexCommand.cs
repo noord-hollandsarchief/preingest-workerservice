@@ -41,10 +41,10 @@ namespace Noord.Hollands.Archief.Preingest.WorkerService.Handler.Command
             TryExecuteOrCatch(client, currentFolderSessionId, (id) =>
             {
                 Logger.LogInformation("Command: {0}", this.GetType().Name);
-                OpenAPIService.OpexClient api = new OpenAPIService.OpexClient(WebApi.ToString(), client);
+                OpenAPI.OpexClient api = new OpenAPI.OpexClient(WebApi.ToString(), client);
 
-                var mergeOption = (settings != null && settings.MergeRecordAndFile.Equals("Ja", StringComparison.InvariantCultureIgnoreCase)) ? OpenAPIService.InheritanceMethod.Combine : OpenAPIService.InheritanceMethod.None;
-                api.BuildopexAsync(id, new OpenAPIService.Inheritance { MethodResult = mergeOption } ).GetAwaiter().GetResult();
+                var mergeOption = (settings != null && settings.MergeRecordAndFile.Equals("Ja", StringComparison.InvariantCultureIgnoreCase)) ? OpenAPI.InheritanceMethod.Combine : OpenAPI.InheritanceMethod.None;
+                api.BuildOpexForIngestAsync(id, new OpenAPI.Inheritance { MethodResult = mergeOption } ).GetAwaiter().GetResult();
             });
         }
     }

@@ -5,13 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Noord.Hollands.Archief.Preingest.WorkerService.OpenAPIService
+namespace Noord.Hollands.Archief.Preingest.WorkerService.OpenAPI
 {
+
     /// <summary>
-    /// Partial class of auto-generated objects in Swagger OpenAPIService
+    /// Partial class of auto-generated objects in Swagger OpenAPI
     /// </summary>
-    public partial class StatusClient
+    public partial class StatusClient : Noord.Hollands.Archief.Preingest.WorkerService.OpenAPI.swaggerClient
     {
+        public StatusClient(string baseUrl, System.Net.Http.HttpClient httpClient) : base(baseUrl, httpClient)
+        {
+        }
+
         public event EventHandler<CallEvents> ProcessResponse;
 
         protected virtual void OnTrigger(CallEvents e)

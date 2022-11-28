@@ -41,12 +41,12 @@ namespace Noord.Hollands.Archief.Preingest.WorkerService.Handler.Command
             TryExecuteOrCatch(client, currentFolderSessionId, (id) =>
             {
                 Logger.LogInformation("Command: {0}", this.GetType().Name);
-                OpenAPIService.OpexClient api = new OpenAPIService.OpexClient(WebApi.ToString(), client);
+                OpenAPI.OpexClient api = new OpenAPI.OpexClient(WebApi.ToString(), client);
                 //default compare
-                api.ChecksumAsync(id, new OpenAPIService.Algorithm
+                api.RunChecksumWithEveryFilesAsync(id, new OpenAPI.Algorithm
                 {
-                    ChecksumType = OpenAPIService.AlgorithmTypes.MD5,//compare use the algorithm from metadata, in this case just assign a default value
-                    ProcessingMode = OpenAPIService.ExecutionMode.CalculateAndCompare
+                    ChecksumType = OpenAPI.AlgorithmTypes.MD5,//compare use the algorithm from metadata, in this case just assign a default value
+                    ProcessingMode = OpenAPI.ExecutionMode.CalculateAndCompare
                 } ).GetAwaiter().GetResult();
             });
         }

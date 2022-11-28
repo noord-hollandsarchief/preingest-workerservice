@@ -41,8 +41,8 @@ namespace Noord.Hollands.Archief.Preingest.WorkerService.Handler.Command
             TryExecuteOrCatch(client, currentFolderSessionId, (id) =>
             {
                 Logger.LogInformation("Command: {0}", this.GetType().Name);
-                OpenAPIService.ToPX2MDTOClient api = new OpenAPIService.ToPX2MDTOClient(WebApi.ToString(), client);                
-                api.Update_fixityAsync(id).GetAwaiter().GetResult();
+                OpenAPI.ToPX2MDTOClient api = new OpenAPI.ToPX2MDTOClient(WebApi.ToString(), client);                
+                api.UpdateFileFixityForMDTOAsync(id).GetAwaiter().GetResult();
             });
         }
     }

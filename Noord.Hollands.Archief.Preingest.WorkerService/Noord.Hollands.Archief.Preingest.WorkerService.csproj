@@ -8,12 +8,17 @@
 	 <Deterministic>false</Deterministic>
 	 <AssemblyName>Noord.Hollands.Archief.Preingest.WorkerService</AssemblyName>
 	 <RootNamespace>Noord.Hollands.Archief.Preingest.WorkerService</RootNamespace>
+	 <DockerComposeProjectPath>docker-compose.dcproj</DockerComposeProjectPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Noord.HollandsArchief.Pre.Ingest.WorkerService' ">
+    <ExternalConsole>true</ExternalConsole>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Entities\Context\**" />
     <Content Remove="Entities\Context\**" />
     <EmbeddedResource Remove="Entities\Context\**" />
     <None Remove="Entities\Context\**" />
+    <Content Remove="OpenAPIs\swagger.json" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Entities\CommandKey\DefaultKey.cs~RF10d5e38b.TMP" />
@@ -25,15 +30,15 @@
     <None Remove="Handler\Creator\PreingestCommandCreator.cs~RFab86d6c.TMP" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.10" />
-    <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="6.0.10">
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="7.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="NSwag.ApiDescription.Client" Version="13.17.0">
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="NSwag.ApiDescription.Client" Version="13.18.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -41,6 +46,15 @@
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Connected Services" />
+    <Content Update="OpenAPIs\swagger.json">
+      <CodeGenerator>NSwagCSharp</CodeGenerator>
+      <SourceUri>http://localhost:55377/swagger/v1/swagger.json</SourceUri>
+      <Namespace>Noord.Hollands.Archief.Preingest.WorkerService.OpenAPI</Namespace>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <OpenApiReference Include="OpenAPIs\swagger.json" Namespace="Noord.Hollands.Archief.Preingest.WorkerService.OpenAPI">
+      <SourceUri>http://localhost:59180/swagger/v1/swagger.json</SourceUri>
+    </OpenApiReference>
   </ItemGroup>
 </Project>

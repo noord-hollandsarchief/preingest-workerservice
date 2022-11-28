@@ -9,13 +9,17 @@ using Newtonsoft.Json;
 using Noord.Hollands.Archief.Preingest.WorkerService.Entities.Event;
 using Noord.Hollands.Archief.Preingest.WorkerService.Entities.EventHub;
 
-namespace Noord.Hollands.Archief.Preingest.WorkerService.OpenAPIService
+namespace Noord.Hollands.Archief.Preingest.WorkerService.OpenAPI
 {
     /// <summary>
-    /// Partial class of auto-generated objects in Swagger OpenAPIService
+    /// Partial class of auto-generated objects in Swagger OpenAPI
     /// </summary>
-    public partial class OutputClient
+    public partial class OutputClient : Noord.Hollands.Archief.Preingest.WorkerService.OpenAPI.swaggerClient
     {
+        public OutputClient(string baseUrl, System.Net.Http.HttpClient httpClient) : base(baseUrl, httpClient)
+        {
+        }
+
         public event EventHandler<CallEvents> ProcessResponse;
         protected virtual void OnTrigger(CallEvents e)
         {

@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  noord.hollands.archief.preingest.workerservice:
+    image: ${DOCKER_REGISTRY-}noordhollandsarchiefpreingest
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+networks:
+  default:
+    name: 'preingest-network'
+    external: true

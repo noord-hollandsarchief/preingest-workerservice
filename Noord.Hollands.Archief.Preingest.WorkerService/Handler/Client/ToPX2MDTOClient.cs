@@ -9,13 +9,17 @@ using Newtonsoft.Json;
 using Noord.Hollands.Archief.Preingest.WorkerService.Entities.Event;
 using Noord.Hollands.Archief.Preingest.WorkerService.Entities.EventHub;
 
-namespace Noord.Hollands.Archief.Preingest.WorkerService.OpenAPIService
+namespace Noord.Hollands.Archief.Preingest.WorkerService.OpenAPI
 {
     /// <summary>
-    /// Partial class of auto-generated objects in Swagger OpenAPIService
+    /// Partial class of auto-generated objects in Swagger OpenAPI
     /// </summary>
-    public partial class ToPX2MDTOClient
+    public partial class ToPX2MDTOClient : Noord.Hollands.Archief.Preingest.WorkerService.OpenAPI.swaggerClient
     {
+        public ToPX2MDTOClient(string baseUrl, System.Net.Http.HttpClient httpClient) : base(baseUrl, httpClient)
+        {
+        }
+
         public async Task PrepareRequestAsync(System.Net.Http.HttpClient httpClient, System.Net.Http.HttpRequestMessage request, StringBuilder urlBuilder)
         {
             await PrepareRequestAsync(httpClient, request, urlBuilder.ToString());

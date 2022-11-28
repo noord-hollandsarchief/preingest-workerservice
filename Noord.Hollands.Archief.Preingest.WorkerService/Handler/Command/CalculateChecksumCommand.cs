@@ -34,7 +34,7 @@ namespace Noord.Hollands.Archief.Preingest.WorkerService.Handler.Command
             TryExecuteOrCatch(client, currentFolderSessionId, settings, (id, props) =>
             {                
                 Logger.LogInformation("Command: {0}", this.GetType().Name);
-                OpenAPIService.PreingestClient api = new OpenAPIService.PreingestClient(WebApi.ToString(), client);
+                OpenAPI.PreingestClient api = new OpenAPI.PreingestClient(WebApi.ToString(), client);
 
                 if (props == null)
                 {            
@@ -42,7 +42,7 @@ namespace Noord.Hollands.Archief.Preingest.WorkerService.Handler.Command
                     throw new ApplicationException(message);
                 }
 
-                api.CalculateAsync(id, new OpenAPIService.BodyChecksum
+                api.CalculateCollectionChecksumAsync(id, new OpenAPI.BodyChecksum
                 {
                     ChecksumType = props.ChecksumType,
                     InputChecksumValue = props.ChecksumValue

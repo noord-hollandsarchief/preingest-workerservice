@@ -43,8 +43,8 @@ namespace Noord.Hollands.Archief.Preingest.WorkerService.Handler
             TryExecuteOrCatch(client, currentFolderSessionId, (id) =>
             {
                 Logger.LogInformation("Command: {0}", this.GetType().Name);
-                OpenAPIService.PreingestClient api = new OpenAPIService.PreingestClient(WebApi.ToString(), client);
-                api.UnpackAsync(id).GetAwaiter().GetResult();
+                OpenAPI.PreingestClient api = new OpenAPI.PreingestClient(WebApi.ToString(), client);
+                api.ExpandCollectionArchiveAsync(id).GetAwaiter().GetResult();
             });
         }
     }

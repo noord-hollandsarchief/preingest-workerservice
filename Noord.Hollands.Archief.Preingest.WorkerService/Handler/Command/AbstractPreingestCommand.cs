@@ -2,7 +2,7 @@
 
 using Newtonsoft.Json;
 
-using Noord.Hollands.Archief.Preingest.WorkerService.OpenAPIService;
+using Noord.Hollands.Archief.Preingest.WorkerService.OpenAPI;
 using Noord.Hollands.Archief.Preingest.WorkerService.Entities.CommandKey;
 using Noord.Hollands.Archief.Preingest.WorkerService.Entities.EventHub;
 
@@ -183,7 +183,7 @@ namespace Noord.Hollands.Archief.Preingest.WorkerService.Handler
             try
             {
                 Entities.CommandKey.ValidationActionType currentActionType = this.ActionTypeName;
-                OpenAPIService.OutputClient api = new OpenAPIService.OutputClient(WebApi.ToString(), client);
+                OpenAPI.OutputClient api = new OpenAPI.OutputClient(WebApi.ToString(), client);
 
                 api.ProcessResponse += (object sender, Entities.Event.CallEvents e) =>
                 {
@@ -213,9 +213,10 @@ namespace Noord.Hollands.Archief.Preingest.WorkerService.Handler
                     }                    
                 };
 
-                var response = api.CollectionAsync(id).GetAwaiter().GetResult();
-                if (response.StatusCode != 200)
-                    throw new ApplicationException(String.Format("Failed to register fault state for action {0} with ID {1}! Web API status code returned not 200 code.", currentActionType, id));                                
+                api.GetSingleCollectionAsync(id).GetAwaiter().GetResult();
+                //var response = api.GetSingleCollectionAsync(id).GetAwaiter().GetResult();
+                //if (response.StatusCode != 200)
+                //    throw new ApplicationException(String.Format("Failed to register fault state for action {0} with ID {1}! Web API status code returned not 200 code.", currentActionType, id));                                
             }
             catch (Exception e)
             {
@@ -238,7 +239,7 @@ namespace Noord.Hollands.Archief.Preingest.WorkerService.Handler
         {
             Entities.CommandKey.ValidationActionType currentActionType = this.ActionTypeName;
 
-            OpenAPIService.StatusClient status = new OpenAPIService.StatusClient(WebApi.ToString(), client);
+            OpenAPI.StatusClient status = new OpenAPI.StatusClient(WebApi.ToString(), client);
             //add new 
             Guid processId = Guid.Empty;
             status.ProcessResponse += (object sender, Entities.Event.CallEvents e) =>
@@ -248,7 +249,8 @@ namespace Noord.Hollands.Archief.Preingest.WorkerService.Handler
                 bool isParsed = Guid.TryParse(id == null ? "" : id.ToString(), out processId);
             };
 
-            var addNewActionResponse = status.NewAsync(folderSessionId, new BodyNewAction
+            //var addNewActionResponse =
+            status.AddActionForCollectionAsync(folderSessionId, new BodyNewAction
             {
                 Name = currentActionType.ToString(),
                 Description = "Action created by WorkerService.",
@@ -258,25 +260,28 @@ namespace Noord.Hollands.Archief.Preingest.WorkerService.Handler
             if (processId == Guid.Empty)
                 throw new ApplicationException("Parsing process (action) ID failed!");
 
-            if (addNewActionResponse.StatusCode != 200)
-                throw new ApplicationException(String.Format("New action registration returned a bad response (not 200 code)! Action ID {0}, Folder/Session ID {1}.", processId, folderSessionId));
+            //if (addNewActionResponse.StatusCode != 200)
+            //    throw new ApplicationException(String.Format("New action registration returned a bad response (not 200 code)! Action ID {0}, Folder/Session ID {1}.", processId, folderSessionId));
             //add 2 records (started/failed) for state
-            var startStateResponse = status.StartAsync(processId).GetAwaiter().GetResult();           
-            if (startStateResponse.StatusCode != 200)
-                throw new ApplicationException(String.Format("Start state registration returned a bad response (not 200 code)! Action ID {0}, Folder / Session ID {1}.", processId, folderSessionId));
+            //var startStateResponse =
+            status.AddStartStatusByGuidAsync(processId).GetAwaiter().GetResult();           
+            //if (startStateResponse.StatusCode != 200)
+            //    throw new ApplicationException(String.Format("Start state registration returned a bad response (not 200 code)! Action ID {0}, Folder / Session ID {1}.", processId, folderSessionId));
             
             OnNotify(new NotificationEvent { Client = client, Id = folderSessionId, Result = NotificationEvent.State.Started });
             
-            var failedStateResponse = status.FailedAsync(processId, new BodyMessage { Message = errorMessage }).GetAwaiter().GetResult();
-            if (failedStateResponse.StatusCode != 200)
-                throw new ApplicationException(String.Format("Failed state registration returned a bad response (not 200 code)! Action ID {0}, Folder / Session ID {1}.", processId, folderSessionId));
+            //var failedStateResponse =
+            status.AddFailedStatusByGuidAsync(processId, new BodyMessage { Message = errorMessage }).GetAwaiter().GetResult();
+            //if (failedStateResponse.StatusCode != 200)
+            //    throw new ApplicationException(String.Format("Failed state registration returned a bad response (not 200 code)! Action ID {0}, Folder / Session ID {1}.", processId, folderSessionId));
 
             SummaryItem summaryObj = new SummaryItem { Accepted = 0, Processed = 0, Rejected = 1, Start = DateTimeOffset.Now, End = DateTimeOffset.Now };
             string summaryStr = JsonConvert.SerializeObject(summaryObj);
             //final update
-            var finalUpdateResponse = status.UpdateAsync(processId, new BodyUpdate { Result = "Failed", Summary = summaryStr }).GetAwaiter().GetResult();
-            if(finalUpdateResponse.StatusCode != 200)
-                throw new ApplicationException(String.Format("Final update status returned a bad response (not 200 code)! Action ID {0}, Folder / Session ID {1}.", processId, folderSessionId));
+            //var finalUpdateResponse =
+            status.UpdateActionByGuidAsync(processId, new BodyUpdate { Result = "Failed", Summary = summaryStr }).GetAwaiter().GetResult();
+            //if(finalUpdateResponse.StatusCode != 200)
+            //    throw new ApplicationException(String.Format("Final update status returned a bad response (not 200 code)! Action ID {0}, Folder / Session ID {1}.", processId, folderSessionId));
 
             OnNotify(new NotificationEvent { Client = client, Id = folderSessionId, Result = NotificationEvent.State.CompletedOrFailed });
         }
@@ -293,25 +298,28 @@ namespace Noord.Hollands.Archief.Preingest.WorkerService.Handler
         {
             Entities.CommandKey.ValidationActionType currentActionType = this.ActionTypeName;
 
-            OpenAPIService.StatusClient status = new OpenAPIService.StatusClient(WebApi.ToString(), client);
+            OpenAPI.StatusClient status = new OpenAPI.StatusClient(WebApi.ToString(), client);
 
             //add 2 records (started/failed) for state
-            var startStateResponse = status.StartAsync(processId).GetAwaiter().GetResult();
-            if (startStateResponse.StatusCode != 200)
-                throw new ApplicationException(String.Format("Start state registration returned a bad response (not 200 code)! Action ID {0}, Folder / Session ID {1}.", processId, folderSessionId));
+            //var startStateResponse =
+            status.AddStartStatusByGuidAsync(processId).GetAwaiter().GetResult();
+            //if (startStateResponse.StatusCode != 200)
+            //    throw new ApplicationException(String.Format("Start state registration returned a bad response (not 200 code)! Action ID {0}, Folder / Session ID {1}.", processId, folderSessionId));
 
             OnNotify(new NotificationEvent { Client = client, Id = folderSessionId, Result = NotificationEvent.State.Started });
 
-            var failedStateResponse = status.FailedAsync(processId, new BodyMessage { Message = errorMessage }).GetAwaiter().GetResult();
-            if (failedStateResponse.StatusCode != 200)
-                throw new ApplicationException(String.Format("Failed state registration returned a bad response (not 200 code)! Action ID {0}, Folder / Session ID {1}.", processId, folderSessionId));
+            //var failedStateResponse =
+            status.AddFailedStatusByGuidAsync(processId, new BodyMessage { Message = errorMessage }).GetAwaiter().GetResult();
+            //if (failedStateResponse.StatusCode != 200)
+            //    throw new ApplicationException(String.Format("Failed state registration returned a bad response (not 200 code)! Action ID {0}, Folder / Session ID {1}.", processId, folderSessionId));
 
             SummaryItem summaryObj = new SummaryItem { Accepted = 0, Processed = 0, Rejected = 1, Start = DateTimeOffset.Now, End = DateTimeOffset.Now };
             string summaryStr = JsonConvert.SerializeObject(summaryObj);
             //final update
-            var finalUpdateResponse = status.UpdateAsync(processId, new BodyUpdate { Result = "Failed", Summary = summaryStr }).GetAwaiter().GetResult();
-            if (finalUpdateResponse.StatusCode != 200)
-                throw new ApplicationException(String.Format("Final update status returned a bad response (not 200 code)! Action ID {0}, Folder / Session ID {1}.", processId, folderSessionId));
+            //var finalUpdateResponse =
+            status.UpdateActionByGuidAsync(processId, new BodyUpdate { Result = "Failed", Summary = summaryStr }).GetAwaiter().GetResult();
+            //if (finalUpdateResponse.StatusCode != 200)
+            //    throw new ApplicationException(String.Format("Final update status returned a bad response (not 200 code)! Action ID {0}, Folder / Session ID {1}.", processId, folderSessionId));
 
             OnNotify(new NotificationEvent { Client = client, Id = folderSessionId, Result = NotificationEvent.State.CompletedOrFailed });
         }
@@ -326,18 +334,20 @@ namespace Noord.Hollands.Archief.Preingest.WorkerService.Handler
         /// <exception cref="System.ApplicationException"></exception>
         private void FailedStateRegistration(HttpClient client, Guid folderSessionId, Guid processId, string errorMessage)
         {
-            OpenAPIService.StatusClient status = new OpenAPIService.StatusClient(WebApi.ToString(), client);
+            OpenAPI.StatusClient status = new OpenAPI.StatusClient(WebApi.ToString(), client);
 
-            var failedStateResponse = status.FailedAsync(processId, new BodyMessage { Message = errorMessage }).GetAwaiter().GetResult();
-            if (failedStateResponse.StatusCode != 200)
-                throw new ApplicationException(String.Format("Failed state registration returned a bad response (not 200 code)! Action ID {0}, Folder / Session ID {1}.", processId, folderSessionId));
+            //var failedStateResponse =
+            status.AddFailedStatusByGuidAsync(processId, new BodyMessage { Message = errorMessage }).GetAwaiter().GetResult();
+            //if (failedStateResponse.StatusCode != 200)
+            //    throw new ApplicationException(String.Format("Failed state registration returned a bad response (not 200 code)! Action ID {0}, Folder / Session ID {1}.", processId, folderSessionId));
 
             SummaryItem summaryObj = new SummaryItem { Accepted = 0, Processed = 0, Rejected = 1, Start = DateTimeOffset.Now, End = DateTimeOffset.Now };
             string summaryStr = JsonConvert.SerializeObject(summaryObj);
             //final update
-            var finalUpdateResponse = status.UpdateAsync(processId, new BodyUpdate { Result = "Failed", Summary = summaryStr }).GetAwaiter().GetResult();
-            if (finalUpdateResponse.StatusCode != 200)
-                throw new ApplicationException(String.Format("Final update status returned a bad response (not 200 code)! Action ID {0}, Folder / Session ID {1}.", processId, folderSessionId));
+            //var finalUpdateResponse =
+            status.UpdateActionByGuidAsync(processId, new BodyUpdate { Result = "Failed", Summary = summaryStr }).GetAwaiter().GetResult();
+            //if (finalUpdateResponse.StatusCode != 200)
+            //    throw new ApplicationException(String.Format("Final update status returned a bad response (not 200 code)! Action ID {0}, Folder / Session ID {1}.", processId, folderSessionId));
 
             OnNotify(new NotificationEvent { Client = client, Id = folderSessionId, Result = NotificationEvent.State.CompletedOrFailed });
         }
@@ -353,7 +363,7 @@ namespace Noord.Hollands.Archief.Preingest.WorkerService.Handler
         {
             Entities.CommandKey.ValidationActionType currentActionType = this.ActionTypeName;
 
-            OpenAPIService.StatusClient status = new OpenAPIService.StatusClient(WebApi.ToString(), client);
+            OpenAPI.StatusClient status = new OpenAPI.StatusClient(WebApi.ToString(), client);
 
             if (type == NotificationEvent.State.Started)
             {
@@ -372,9 +382,10 @@ namespace Noord.Hollands.Archief.Preingest.WorkerService.Handler
                     End = DateTimeOffset.Now,
                     Message = "Event triggered by WorkerService."
                 };
-                var statusStartResult = status.NotifyAsync(startBody).GetAwaiter().GetResult();
-                if (statusStartResult.StatusCode != 200)
-                    throw new ApplicationException(String.Format("Failed to notify, returned a bad response (not 200 code)! Folder / Session ID {0}.", folderSessionId));             
+                //var statusStartResult =
+                status.NotifyClientOfAnEventAsync(startBody).GetAwaiter().GetResult();
+                //if (statusStartResult.StatusCode != 200)
+                //    throw new ApplicationException(String.Format("Failed to notify, returned a bad response (not 200 code)! Folder / Session ID {0}.", folderSessionId));             
             }
 
             if (type == NotificationEvent.State.CompletedOrFailed)
@@ -394,9 +405,10 @@ namespace Noord.Hollands.Archief.Preingest.WorkerService.Handler
                     End = DateTimeOffset.Now,
                     Message = "Event triggered by WorkerService."
                 };
-                var statusFailedResult = status.NotifyAsync(failedBody).GetAwaiter().GetResult();
-                if (statusFailedResult.StatusCode != 200)
-                    throw new ApplicationException(String.Format("Failed to notify, returned a bad response (not 200 code)! Folder / Session ID {0}.", folderSessionId));
+                //var statusFailedResult =
+                status.NotifyClientOfAnEventAsync(failedBody).GetAwaiter().GetResult();
+                //if (statusFailedResult.StatusCode != 200)
+                //    throw new ApplicationException(String.Format("Failed to notify, returned a bad response (not 200 code)! Folder / Session ID {0}.", folderSessionId));
             }
 
             System.Threading.Thread.Sleep(500);

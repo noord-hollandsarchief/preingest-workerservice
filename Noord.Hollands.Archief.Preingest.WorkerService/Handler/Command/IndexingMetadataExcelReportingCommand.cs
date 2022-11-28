@@ -43,13 +43,13 @@ namespace Noord.Hollands.Archief.Preingest.WorkerService.Handler.Command
             TryExecuteOrCatch(client, currentFolderSessionId, (id) =>
             {
                 Logger.LogInformation("Command: {0}", this.GetType().Name);
-                OpenAPIService.PreingestClient api = new OpenAPIService.PreingestClient(WebApi.ToString(), client);
+                OpenAPI.PreingestClient api = new OpenAPI.PreingestClient(WebApi.ToString(), client);
 
                 string[] body = new string[] { };
                 if (settings != null && !String.IsNullOrEmpty(settings.RootNamesExtraXml))
                     body = settings.RootNamesExtraXml.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
-                api.IndexingAsync(id, body).GetAwaiter().GetResult();
+                api.IndexMetadataFilesToExcelAsync(id, body).GetAwaiter().GetResult();
             });
         }
     }
