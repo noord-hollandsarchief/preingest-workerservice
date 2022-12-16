@@ -66,6 +66,7 @@ namespace Noord.Hollands.Archief.Preingest.WorkerService.Handler.Creator
             _executionCommand.Add(new DefaultKey(ValidationActionType.BinaryFileObjectValidationHandler), new BinariesValidationCommand(logger, webapiUrl));
             //new: motor
             _executionCommand.Add(new DefaultKey(ValidationActionType.BuildNonMetadataOpexHandler), new BuildNonMetadataOpexCommand(logger, webapiUrl));
+            _executionCommand.Add(new DefaultKey(ValidationActionType.RevertCollectionHandler), new RevertDipCollectionCommand(logger, webapiUrl));
         }
 
         /// <summary>

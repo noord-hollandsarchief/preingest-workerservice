@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   noord.hollands.archief.preingest.workerservice:
-    image: ${DOCKER_REGISTRY-}noordhollandsarchiefpreingest
+    image: ${DOCKER_REGISTRY-}noordhollandsarchiefpreingestworkerservice
     build:
       context: .
       dockerfile: ./Dockerfile
